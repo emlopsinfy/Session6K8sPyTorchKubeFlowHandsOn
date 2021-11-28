@@ -119,6 +119,55 @@ To compile the pipeline we use the compiler.Compile() function which is again pa
 
 ![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/cb36d569dfef70d0d8414c3bd74b31035b03f7f5/Images/pipeline%20compiler.PNG)
 
+**Create an Experiment**
+
+Pipelines are always part of an experiment and can be created with the Kubeflow Pipeline Client kfp.client().
+
+![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/d763ed1d4b738b04685c37433756b6959b117c23/Images/create%20experiment.PNG)
+
+**Run the Pipeline**
+
+To run a pipeline we use the experiment id and the compiled pipeline created in the previous steps. client.run_pipeline runs the pipelines and provides a direct link to the Kubeflow experiment.
+
+![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/d763ed1d4b738b04685c37433756b6959b117c23/Images/run%20pipeline.PNG)
+
+[**ArgoWorkflow** (Links to an external site.)](https://github.com/argoproj/argo-workflows)
+
+##### Kubeflow internally uses Argo to manage pipeline.
+
+Kubeflow pipelines heavily rely on container images, Argo Workflow for orchestration.
+
+**What is Argo Workflows?**
+
+Argo Workflows is an open-source container-native workflow engine for orchestrating parallel jobs on Kubernetes. Argo Workflows is implemented as a Kubernetes CRD (Custom Resource Definition).
+
+- - - Define workflows where each step in the workflow is a container.
+    - Model multi-step workflows as a sequence of tasks or capture the dependencies between tasks using a directed acyclic graph (DAG).
+    - Easily run compute-intensive jobs for machine learning or data processing in a fraction of the time using Argo Workflows on Kubernetes.
+    - Argo Workflows is the most popular workflow execution engine for Kubernetes.
+    - It can run 1000s of workflows a day, each with 1000s of concurrent tasks.
+    - Users say it is lighter-weight, faster, more powerful, and easier to use
+    - Designed from the ground up for containers without the overhead and limitations of legacy VM and server-based environments.
+    - Cloud agnostic and can run on any Kubernetes cluster.
+    - Let's check its [features (Links to an external site.)](https://github.com/argoproj/argo-workflows).
+
+ 
+
+[**MinIO** (Links to an external site.)](https://min.io/?utm_content=inline-mention)
+
+Kubeflow pipelines heavily rely on MinIO for data persistence.
+
+- - - MinIO offers high-performance, S3 compatible object storage.
+    - Native to Kubernetes, MinIO is the only object storage suite available on every public cloud, every Kubernetes distribution, the private cloud and the edge.
+
+ 
+
+**Notebook Server**
+
+Kubeflow comes with an integrated Jupyter Notebook platform in the form of Kubeflow Notebook Servers. Each Notebook Server is based on a container image that comes with the libraries, frameworks, and tools needed by a data scientist team. 
+
+![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/1a3aae4c9d6fae9b2b5fa0c4d3a7564540240bfd/Images/notebook%20server.PNG)
+
 
 
 
