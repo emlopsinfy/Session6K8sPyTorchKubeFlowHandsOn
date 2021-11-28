@@ -168,6 +168,49 @@ Kubeflow comes with an integrated Jupyter Notebook platform in the form of Kubef
 
 ![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/1a3aae4c9d6fae9b2b5fa0c4d3a7564540240bfd/Images/notebook%20server.PNG)
 
+ 
+
+# **Quick Handson**
+
+We first need to [install/deploy (Links to an external site.)](https://www.kubeflow.org/docs/components/pipelines/installation/) KubeFlow. Before we do that, we need to make sure we have kubernetes and kubectl installed. 
+
+Go to Local Deployment.
+
+In Local Deployment, followed below.
+
+## Deploying Kubeflow Pipelines
+
+The installation process for Kubeflow Pipelines is the same for all three environments covered in this guide: kind, K3s, and K3ai.
+
+**Note**: Process Namespace Sharing (PNS) is not mature in Argo yet - for more information go to [Argo Executors](https://argoproj.github.io/argo-workflows/workflow-executors/) and reference “pns executors” in any issue you may come across when using PNS.
+
+1. To deploy the Kubeflow Pipelines, run the following commands:
+
+   ```shell
+   # env/platform-agnostic-pns hasn't been publically released, so you will install it from master
+   export PIPELINE_VERSION=1.7.1
+   kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
+   kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
+   kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
+   ```
+
+   The Kubeflow Pipelines deployment may take several minutes to complete.
+
+   First error - export is not recognized.
+
+   So used ‘set’ instead export.
+
+2. Verify that the Kubeflow Pipelines UI is accessible by port-forwarding:
+
+   ```shell
+   kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80
+   ```
+
+   Then, open the Kubeflow Pipelines UI at `http://localhost:8080/` or - if you are using kind or K3s within a virtual machine - `http://{YOUR_VM_IP_ADDRESS}:8080/`
+
+   Note that K3ai will automatically print the URL for the web UI at the end of the installation process.
+
+   **Note**: `kubectl apply -k` accepts local paths and paths that are formatted as [hashicorp/go-getter URLs](https://github.com/kubernetes-sigs/kustomize/blob/master/examples/remoteBuild.md#url-format). While the paths in the preceding commands look like URLs, they are not valid URLs.
 
 
 
