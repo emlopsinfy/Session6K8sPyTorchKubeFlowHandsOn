@@ -1,16 +1,20 @@
 This repo explains how to install and work with Kubeflow locally.
 
+If we created pipeline JSONs and YAMLs using kfp and want to deploy the same locally, then we can use Kubeflow.
+
+We can also take those JSONs, YAMLs and create main.py files and take it to GCP too and deploy the pipeline in Vertex AI - https://github.com/emlopsinfy/Simple-KubeFlow-Pipeline-and-deploying-to-GCP
+
+This session repo uses AWS in the future, may be in Session 7 or 8 or further.
+
 ##### Theory...
 
 ##### What is Kubeflow ?
 
-Kubeflow (originated at Google) is an end-to-end Machine Learning (ML) platform for Kubernetes, it provides components for each stage in the ML lifecycle, from exploration through to training and deployment. Operators can choose what is best for their users, there is no requirement to deploy every component.  Kubeflow is the ML toolkit for Kubernetes. The following diagram shows Kubeflow as a platform for arranging the components of your ML system on top of Kubernetes:
+Kubeflow (originated at Google) is an end-to-end ML platform for Kubernetes, it provides components for each stage in the ML lifecycle, from exploration through to training and deployment. Operators can choose what is best for their users, there is no requirement to deploy every component.  Kubeflow is the ML toolkit for Kubernetes. The following diagram shows Kubeflow as a platform for arranging the components of your ML system on top of Kubernetes:
 
 ##### Architecture
 
 ![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/2328ee0b52b867860405e63ae02e36804aa6dbf2/Images/Kubeflow%20architecture.PNG)
-
-
 
 ##### Components
 
@@ -33,14 +37,10 @@ The Python SDK and API provide programmatic access to the pipeline runtime. They
 
 Kubeflow contains two types of components, one for rapid development and one for re-usability.
 
- 
-
 **Lightweight Component:** Used for fast development in a notebook environment. Fast and easy cause there is no need to build container images.
 
 **Reusable Containerized Component:** Can be reused by loading it into a Kubeflow pipeline. It is a containerized component.
 Require more implementation time.
-
- 
 
 **Reusable Component**
 
@@ -89,9 +89,7 @@ The output is required to pass data between components. It is important to know 
     - And **pass a reference** to this file to the next component.
     - The next **component** in the pipeline will take this reference and **download** the serialized data.
 
- 
-
-**Dockerize Component**
+##### Dockerize Component
 Each component is a container image that requires a Dockerfile in order to build an image.
 
 **Use the Pipeline**
@@ -151,8 +149,6 @@ Argo Workflows is an open-source container-native workflow engine for orchestrat
     - Cloud agnostic and can run on any Kubernetes cluster.
     - Let's check its [features (Links to an external site.)](https://github.com/argoproj/argo-workflows).
 
- 
-
 [**MinIO** (Links to an external site.)](https://min.io/?utm_content=inline-mention)
 
 Kubeflow pipelines heavily rely on MinIO for data persistence.
@@ -160,68 +156,8 @@ Kubeflow pipelines heavily rely on MinIO for data persistence.
 - - - MinIO offers high-performance, S3 compatible object storage.
     - Native to Kubernetes, MinIO is the only object storage suite available on every public cloud, every Kubernetes distribution, the private cloud and the edge.
 
- 
-
 **Notebook Server**
 
 Kubeflow comes with an integrated Jupyter Notebook platform in the form of Kubeflow Notebook Servers. Each Notebook Server is based on a container image that comes with the libraries, frameworks, and tools needed by a data scientist team. 
 
 ![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/1a3aae4c9d6fae9b2b5fa0c4d3a7564540240bfd/Images/notebook%20server.PNG)
-
- 
-
-# **Quick Handson**
-
-We first need to [install/deploy (Links to an external site.)](https://www.kubeflow.org/docs/components/pipelines/installation/) KubeFlow. Before we do that, we need to make sure we have kubernetes and kubectl installed. 
-
-Go to Local Deployment.
-
-In Local Deployment, followed below.
-
-## Deploying Kubeflow Pipelines
-
-The installation process for Kubeflow Pipelines is the same for all three environments covered in this guide: kind, K3s, and K3ai.
-
-**Note**: Process Namespace Sharing (PNS) is not mature in Argo yet - for more information go to [Argo Executors](https://argoproj.github.io/argo-workflows/workflow-executors/) and reference “pns executors” in any issue you may come across when using PNS.
-
-1. To deploy the Kubeflow Pipelines, run the following commands:
-
-   ```shell
-   # env/platform-agnostic-pns hasn't been publically released, so you will install it from master
-   export PIPELINE_VERSION=1.7.1
-   kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
-   kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
-   kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
-   ```
-
-   The Kubeflow Pipelines deployment may take several minutes to complete.
-
-   First error - export is not recognized.
-
-   So used ‘set’ instead export.
-
-2. Verify that the Kubeflow Pipelines UI is accessible by port-forwarding:
-
-   ```shell
-   kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80
-   ```
-
-   Then, open the Kubeflow Pipelines UI at `http://localhost:8080/` or - if you are using kind or K3s within a virtual machine - `http://{YOUR_VM_IP_ADDRESS}:8080/`
-
-   Note that K3ai will automatically print the URL for the web UI at the end of the installation process.
-
-   **Note**: `kubectl apply -k` accepts local paths and paths that are formatted as [hashicorp/go-getter URLs](https://github.com/kubernetes-sigs/kustomize/blob/master/examples/remoteBuild.md#url-format). While the paths in the preceding commands look like URLs, they are not valid URLs.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
