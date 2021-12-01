@@ -92,3 +92,20 @@ pip3 install kfp
 raajesh@LAPTOP-UN5K40HI:~/tsai/pipelines/samples/contrib/pytorch-samples$ python3 cifar10/pipeline.py
 
 It created final yaml.
+
+##### Kubeflow Pipeline UI
+
+![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/e7674965b05681f07278cd2bf8fb191fa07a5dd9/Images/Kubeflow%20Pipeline%20UI.PNG)
+
+##### Upload Pipeline on Kubeflow
+
+We will be uploading YAML file generated finally.
+
+![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/e7674965b05681f07278cd2bf8fb191fa07a5dd9/Images/Upload%20Pipeline%20on%20Kubeflow.PNG)
+
+##### Pipeline Run
+
+This is how our pipeline runs, same like Azure ML.
+
+![Create Jobs](https://github.com/emlopsinfy/Session6K8sPyTorchKubeFlowHandsOn/blob/e7674965b05681f07278cd2bf8fb191fa07a5dd9/Images/Pipeline%20Run.PNG)
+
