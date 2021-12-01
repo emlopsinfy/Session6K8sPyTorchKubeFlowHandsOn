@@ -234,3 +234,93 @@ FATA[2021-11-29T20:30:44.817081800+05:30] starting kubernetes: preparing server:
 
 ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
+raajesh@LAPTOP-UN5K40HI:~$ sudo k3s server & 
+
+raajesh@LAPTOP-UN5K40HI:~$ sudo k3s kubectl get node
+NAME              STATUS   ROLES                  AGE   VERSION
+laptop-un5k40hi   Ready    control-plane,master   41h   v1.21.5+k3s2
+
+raajesh@LAPTOP-UN5K40HI:~$ sudo cat /var/lib/rancher/k3s/server/node-token
+
+
+
+raajesh@LAPTOP-UN5K40HI:~$ sudo k3s kubectl cluster-info
+Kubernetes control plane is running at https://127.0.0.1:6443
+CoreDNS is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+raajesh@LAPTOP-UN5K40HI:~$ ip addr | grep eth0
+4: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+​    inet 172.30.29.159/20 brd 172.30.31.255 scope global eth0
+11: veth0b2e19a9@if5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue master cni0 state UP group default
+
+raajesh@LAPTOP-UN5K40HI:~$ sudo k3s agent --server https://172.30.29.159:6443 --token K108211e20657f883ecc1c38126a427f166341a0f1a8e1a20501a7df29fc9703f65::server:10997ae53b9103160ebf29f08cb944a5
+INFO[2021-12-01T11:46:49.988264900+05:30] Starting k3s agent v1.21.5+k3s2 (724ef700)
+WARN[2021-12-01T11:46:49.988648900+05:30] Error starting load balancer: listen tcp 127.0.0.1:6444: bind: address already in use
+FATA[2021-12-01T11:46:49.988700400+05:30] listen tcp 127.0.0.1:6444: bind: address already in use
+
+raajesh@LAPTOP-UN5K40HI:~$ sudo k3s kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-r
+esources?ref=$PIPELINE_VERSION"
+namespace/kubeflow created
+customresourcedefinition.apiextensions.k8s.io/clusterworkflowtemplates.argoproj.io created
+customresourcedefinition.apiextensions.k8s.io/cronworkflows.argoproj.io created
+customresourcedefinition.apiextensions.k8s.io/scheduledworkflows.kubeflow.org created
+customresourcedefinition.apiextensions.k8s.io/viewers.kubeflow.org created
+customresourcedefinition.apiextensions.k8s.io/workfloweventbindings.argoproj.io created
+customresourcedefinition.apiextensions.k8s.io/workflows.argoproj.io created
+customresourcedefinition.apiextensions.k8s.io/workflowtasksets.argoproj.io created
+customresourcedefinition.apiextensions.k8s.io/workflowtemplates.argoproj.io created
+Warning: apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition
+customresourcedefinition.apiextensions.k8s.io/applications.app.k8s.io created
+serviceaccount/kubeflow-pipelines-cache-deployer-sa created
+clusterrole.rbac.authorization.k8s.io/kubeflow-pipelines-cache-deployer-clusterrole created
+clusterrolebinding.rbac.authorization.k8s.io/kubeflow-pipelines-cache-deployer-clusterrolebinding created
+
+```shell
+# env/platform-agnostic-pns hasn't been publically released, so you will install it from master
+export PIPELINE_VERSION=1.7.1
+kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
+kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
+kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
+```
+
+##### give sudo k3s before every command!
+
+##### Above two worked.
+
+
+
+##### Error and solution
+
+1-After installing K3s for the first time on a Pi4, it ended with this error:
+
+```sql
+Unable to read /etc/rancher/k3s/k3s.yaml, please start server with --write-kubeconfig-mode to modify kube config permissions
+```
+
+Solution:
+
+```perl
+$ sudo chmod 644 /etce/rancher/k3s/k3s.yaml
+```
+
+**Steps To Reproduce:**
+
+- Installed K3s:
+
+```cpp
+$ curl -sfL https://get.k3s.io | sh -
+```
+
+2-[[SOLVED\] Docker Failed to Start - Docker Desktop for Windows](https://forums.docker.com/t/solved-docker-failed-to-start-docker-desktop-for-windows/106976)
+
+[suryac](https://forums.docker.com/u/suryac)
+
+[Sep 18](https://forums.docker.com/t/solved-docker-failed-to-start-docker-desktop-for-windows/106976/7)
+
+
+
+delete %appdata%\Docker\settings.json and let Docker to create a new one
+
