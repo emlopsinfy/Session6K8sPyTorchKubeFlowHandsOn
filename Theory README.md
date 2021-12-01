@@ -1,12 +1,10 @@
-This repo explains how to install and work with Kubeflow locally.
+##### Theory...
 
 If we created pipeline JSONs and YAMLs using kfp and want to deploy the same locally, then we can use Kubeflow.
 
-We can also take those JSONs, YAMLs and create main.py files and take it to GCP too and deploy the pipeline in Vertex AI - https://github.com/emlopsinfy/Simple-KubeFlow-Pipeline-and-deploying-to-GCP
+We can also take those JSONs, YAMLs and create main.py files and take it to GCP too and deploy the pipeline in Vertex AI which uses Kubeflow - https://github.com/emlopsinfy/Simple-KubeFlow-Pipeline-and-deploying-to-GCP
 
 This session repo uses AWS in the future, may be in Session 7 or 8 or further.
-
-##### Theory...
 
 ##### What is Kubeflow ?
 
