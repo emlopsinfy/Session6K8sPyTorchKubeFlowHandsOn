@@ -1,4 +1,4 @@
-
+##### How to get Kubeflow UI ?
 
 We first need to [install/deploy (Links to an external site.)](https://www.kubeflow.org/docs/components/pipelines/installation/) KubeFlow. Before we do that, we need to make sure we have kubernetes and kubectl installed. 
 
@@ -40,7 +40,9 @@ The installation process for Kubeflow Pipelines is the same for all three enviro
 
    **Note**: `kubectl apply -k` accepts local paths and paths that are formatted as [hashicorp/go-getter URLs](https://github.com/kubernetes-sigs/kustomize/blob/master/examples/remoteBuild.md#url-format). While the paths in the preceding commands look like URLs, they are not valid URLs.
 
-##### UNABLE TO INSTALL IN GIT BASH WINDOWS
+##### Tried the above commands with minikube, failed, getting errors.
+
+##### 
 
 ##### Downloading UBUNTU
 
@@ -67,9 +69,9 @@ For more information about Windows Subsystem for Linux please visit: https://wik
 
 
 
-##### I have installed Ubuntu App, username and password is ‘raajesh’
+##### Steps followed
 
-Below are the steps followed.
+##### I have installed Ubuntu App, username and password is ‘raajesh’
 
 ##### 1- 
 
